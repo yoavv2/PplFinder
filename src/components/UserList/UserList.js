@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { usePeopleFetch } from "hooks";
 import Text from "components/Text";
 import Spinner from "components/Spinner";
 import CheckBox from "components/CheckBox";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+
 import * as S from "./style";
 
-const UserList = ({ users, isLoading }) => {
+const UserList = ({ users, isLoading, fetchUsers }) => {
+  const [checked, setChecked] = useState(false);
+  const [nationalitys, setNationalitys] = useState([]);
   const [hoveredUserId, setHoveredUserId] = useState();
 
   const handleMouseEnter = (index) => {
@@ -17,13 +21,31 @@ const UserList = ({ users, isLoading }) => {
     setHoveredUserId();
   };
 
+  const handleChange = (nat) => {
+    setNationalitys([nat, ...nationalitys]);
+
+    if (nationalitys.includes(nat)) {
+      let countries = nationalitys.filter((state) => state != nat);
+      setNationalitys(countries);
+    }
+  };
+
+  useEffect(() => {
+    //  debounce
+    let timeout = setTimeout(async () => {
+      clearTimeout(timeout);
+      await fetchUsers(nationalitys.join());
+    }, 700);
+  }, [nationalitys]);
+
   return (
     <S.UserList>
       <S.Filters>
-        <CheckBox value="BR" label="Brazil" />
-        <CheckBox value="AU" label="Australia" />
-        <CheckBox value="CA" label="Canada" />
-        <CheckBox value="DE" label="Germany" />
+        <CheckBox value="BR" label="Brazil" onChange={handleChange} />
+        <CheckBox value="AU" label="Australia" onChange={handleChange} />
+        <CheckBox value="CA" label="Canada" onChange={handleChange} />
+        <CheckBox value="DE" label="Germany" onChange={handleChange} />
+        <CheckBox value="DK" label="Denmark" onChange={handleChange} />
       </S.Filters>
       <S.List>
         {users.map((user, index) => {

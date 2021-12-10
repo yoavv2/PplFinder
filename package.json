@@ -1,7 +1,9 @@
 {
   "name": "ppl-finder",
   "version": "1.0.7",
-  "bin": "./bin/cli.js",
+  "bin": {
+    "ppl-finder": "bin/cli.js"
+  },
   "license": "MIT",
   "repository": "https://github.com/powerlink/PplFinder",
   "dependencies": {
