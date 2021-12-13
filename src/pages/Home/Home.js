@@ -1,12 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Text from "components/Text";
 import UserList from "components/UserList";
 import { usePeopleFetch } from "hooks";
 import * as S from "./style";
+import { UserContext } from "../../AppRouter";
 
 const Home = () => {
-  const { users, isLoading, fetchUsers } = usePeopleFetch();
-  const [locations, setLocations] = useState([]);
+  const { nationalities,setNationalities, users, isLoading } = useContext(UserContext);
+  const [filteredUsers, setFilteredUsers] = useState(users);
+  
+  
+  useEffect(()=>{
+    setNationalities([]);
+  },[])
+
+
+  useEffect(() => {
+    setFilteredUsers(users.filter((user) => {
+      return nationalities.includes(user.nat);
+    }));
+  }, [users, nationalities]);
+
   return (
     <S.Home>
       <S.Content>
@@ -15,8 +29,7 @@ const Home = () => {
             PplFinder
           </Text>
         </S.Header>
-
-        <UserList users={users} isLoading={isLoading} fetchUsers={fetchUsers} />
+        <UserList users={nationalities.length ? filteredUsers : users} isLoading={isLoading} />
       </S.Content>
     </S.Home>
   );
