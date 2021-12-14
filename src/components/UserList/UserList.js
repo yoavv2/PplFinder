@@ -5,10 +5,11 @@ import CheckBox from "components/CheckBox";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import * as S from "./style";
-import { UserContext } from 'AppRouter';
+import { UserContext } from "AppRouter";
 
 const UserList = ({ users, isLoading }) => {
-  const { handleNationalities, addFavorite, removeFavorite, isFavorite } = useContext(UserContext);
+  const { handleNationalities, addFavorite, removeFavorite, isFavorite } =
+    useContext(UserContext);
   const [hoveredUserId, setHoveredUserId] = useState();
   const handleMouseEnter = (index) => {
     setHoveredUserId(index);
@@ -25,6 +26,7 @@ const UserList = ({ users, isLoading }) => {
         <CheckBox value="AU" label="Australia" onChange={handleNationalities} />
         <CheckBox value="CA" label="Canada" onChange={handleNationalities} />
         <CheckBox value="DE" label="Germany" onChange={handleNationalities} />
+        <CheckBox value="FR" label="France" onChange={handleNationalities} />
       </S.Filters>
       <S.List>
         {users.map((user, index) => {
@@ -47,10 +49,14 @@ const UserList = ({ users, isLoading }) => {
                   {user?.location.city} {user?.location.country}
                 </Text>
               </S.UserInfo>
-              <S.IconButtonWrapper isVisible={index === hoveredUserId || isFavorite(user.login.username)}
-                                   onClick={() => isFavorite(user?.login.username)
-                                     ? removeFavorite(user?.login.username)
-                                     : addFavorite(user?.login.username) }>
+              <S.IconButtonWrapper
+                isVisible={index === hoveredUserId || isFavorite(user.login.username)}
+                onClick={() =>
+                  isFavorite(user?.login.username)
+                    ? removeFavorite(user?.login.username)
+                    : addFavorite(user?.login.username)
+                }
+              >
                 <IconButton>
                   <FavoriteIcon color="error" />
                 </IconButton>
