@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { Home, Favorites } from "pages";
 import { ThemeProvider } from "theme";
@@ -17,26 +17,44 @@ const AppRouter = () => {
     } else {
       setNationalities([nat, ...nationalities]);
     }
-  }
+  };
 
   const addFavorite = (username) => {
-    setFavorites(prev => [...prev, username])
-  }
+    setFavorites((prev) => [...prev, username]);
+  };
 
   const removeFavorite = (username) => {
-    setFavorites((prev) =>
-      prev.filter((person) => person != username)
-
-
-    );
-  }
+    setFavorites((prev) => prev.filter((person) => person != username));
+  };
 
   const isFavorite = (username) => {
     return favorites.includes(username);
-  }
+  };
+  useEffect(() => {
+    const tempUsersArray = new Array(JSON.parse(localStorage.getItem("favorites")));
+    setFavorites(...tempUsersArray);
+  }, []);
+
+  
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
 
   return (
-    <UserContext.Provider value={{ nationalities, setNationalities, handleNationalities, favorites, setFavorites, addFavorite, removeFavorite, isFavorite, users, isLoading }}>
+    <UserContext.Provider
+      value={{
+        nationalities,
+        setNationalities,
+        handleNationalities,
+        favorites,
+        setFavorites,
+        addFavorite,
+        removeFavorite,
+        isFavorite,
+        users,
+        isLoading,
+      }}
+    >
       <ThemeProvider>
         <Router>
           <NavBar />
