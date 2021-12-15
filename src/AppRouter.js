@@ -31,11 +31,14 @@ const AppRouter = () => {
     return favorites.includes(username);
   };
   useEffect(() => {
+    if (localStorage.getItem("favorites") === null) {
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      return;
+    }
     const tempUsersArray = new Array(JSON.parse(localStorage.getItem("favorites")));
     setFavorites(...tempUsersArray);
   }, []);
 
-  
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
