@@ -1,9 +1,9 @@
 {
   "name": "PplFinder",
-  "homepage": "http://yoavv2.github.io/ppl-finder",
+  "homepage": "http://yoavv2.github.io/PplFinder",
   "version": "1.0.7",
   "bin": {
-    "ppl-finder": "bin/cli.js"
+  "ppl-finder": "bin/cli.js"
   },
   "license": "MIT",
   "repository": "https://github.com/powerlink/PplFinder",
